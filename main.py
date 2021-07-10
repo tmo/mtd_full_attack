@@ -106,9 +106,8 @@ def wapiti_scan(host=None, cookie=None, exclude=None,
         host = "http://192.168.40.132/dvwa/"
     if not exclude:
         exclude = host+"logout.php"
-        # exclude = "http://192.168.40.132/dvwa/logout.php",
+        # exclude = "http://192.168.40.132/dvwa/logout.php"
     if not cookie:
-        cookie = "cook1.json"
         cookie = get_cookie()
     scan_time = time.strftime("%Y%m%d_%H%m")
     result_file = "./results/{}.json".format(scan_time)
@@ -123,6 +122,7 @@ def wapiti_scan(host=None, cookie=None, exclude=None,
         format = "json",
         output = result_file
     )
+    print(exclude)
     osinput_mod = osinput
     if not os_output:
         osinput_mod += "> ./results/osoutout"
@@ -168,8 +168,8 @@ def get_cookie():
     )
     logging.info("Running command... " + osinput)
     r = subprocess.Popen(["wapiti-getcookie", "-c", cookie_file, "-u", host], 
-                            stdin=subprocess.PIPE)
-    r.communicate(input=b"\n0\nadmin\n\npassword\n\n")
+                            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    out = r.communicate(input=b"0\nadmin\npassword\n\n")
 
     # Set security to low
     import json
@@ -184,8 +184,8 @@ def main(argv):
     parser = arg_parser()
     args = parser.parse_args(argv)
 
-    cookie_file = get_cookie()
-    wapiti_scan(cookie=None, os_output=True)
+    # cookie_file = get_cookie()
+    # wapiti_scan(os_output=True)
 
     # result = wapiti_scan()
     # post_processing(2, [result, result])
