@@ -1,9 +1,10 @@
 import logging
+import time, os
 
 logging.basicConfig(level=logging.DEBUG)
 
 
-def post_processing(stage, results):
+def post_processing(stage_in, results):
     """
     Take results and extract the total attacks launched to attacks with a 
     a result, time to succeed if success
@@ -13,15 +14,24 @@ def post_processing(stage, results):
         to be extracted from settings)
     """
     logging.debug("Post processing...")
-    print("pp")
-    if stage != 1 and stage != 2:
-        logging.error("Only stage 1 and 2 scan post processing is supported")
+
+    # if stage != 1 and stage != 2 and stage != 3:
+    #     logging.error("Only stage 1, 2, and 3 scan post processing is supported")
 
     scans_launched = 0
     successes = 0
     times_to_success = []
     average_TTS = 0
+    stage = stage_in
     for result in results: 
+        if stage_in == -1:
+            if result[0]["stage"]:
+                stage = result[0]["stage"]
+            elif result["stage"]:
+                stage=result["stage"]
+            else:
+                logging.error("Input does not have a stage")
+        print(stage)
         scans_launched += 1
         # determine if successful
         if(stage == 1 ): # nmap
@@ -39,9 +49,50 @@ def post_processing(stage, results):
             if (success):
                 successes += 1
                 times_to_success.append(result["time"])
-
-    
-    average_TTS = sum(times_to_success)/len(times_to_success)
-    print("Scans Launched, Sucesses, Averae TTS")
-    print(scans_launched, successes, average_TTS)
+        elif stage == 3:
+            # uses success parameter in stage3 result dict so not specific to attack
+            if type(result) == type([]):
+                logging.warn("Treating each list as a separate attack")
+                # TODO for now just acting as if one lement in list
+                logging.warn("{} atacks (should be 1 for now".format(len(result)))
+                num_successes = 0
+                for attack_result in result:
+                    if attack_result and attack_result["success"]:
+                        num_successes += 1
+                        times_to_success.append(attack_result["time"])
+                if num_successes > 0:
+                    successes += 1
+            elif result["success"]:
+                successes += 1
+                times_to_success.append(result["time"])
+    try:
+        average_TTS = sum(times_to_success)/len(times_to_success)
+    except:
+        average_TTS = -1
+    print("Scans Launched, Sucesses, Average TTS")
+    print("{},{},{}".format(scans_launched, successes, average_TTS))
+    return successes
    
+def get_output_file_name(file_time_flt, name, group=None):
+    """
+    ./results/date/[group]/name_time
+    """
+    file_time = time.gmtime(file_time_flt)
+    date_folder = time.strftime("%Y%m%d", file_time)
+    scan_time_str = time.strftime("%Y%m%d_%H%M%S",file_time)
+    if group:
+        return "./results/{}/{}/{}_{}".format(
+            date_folder, group, name, scan_time_str)
+    else:
+        return "./results/{}/{}_{}".format(
+            date_folder, name, scan_time_str)
+
+
+def create_output_folder(group=None):
+    date_folder = time.strftime("%Y%m%d", time.gmtime(time.time()))
+    if group:
+        file_dir = "./results/{}/{}/".format(date_folder, group)
+    else:
+        file_dir = "./results/{}/".format(date_folder)
+    if not os.path.exists(file_dir):
+        os.makedirs(file_dir)
