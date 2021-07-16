@@ -1,7 +1,7 @@
 # import sys
 import argparse
 # import nmap
-import time
+import time, sys
 import logging
 # import os
 # replaces os
@@ -63,56 +63,120 @@ def test_phase_3(trials, vuln_scan_results, host, group_name=None):
     post_processing(3, phase_results)
 
 def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
+    phase_1_results = []
+    phase_2_results = []
+    phase_3_results = []
     do_not_dig = False
     if hosts:
         do_not_dig = True
     for i in range(trials):
-        print("---- Trial " + str(i))
-        start = time.time()
-        # if not hosts:
-        #     logging.error("no hosts")
-        #     return
-            # hosts = "192.168.40.*"
-        if not cookie:
-            # cookie = get_cookie()
-            cookie = "./resources/default_lab.json"
-        if not do_not_dig:
-            hosts, ip = get_ip_from_dig()
-            modify_cookie_ip(ip, cookie)
+        try:
+            print("---- Trial " + str(i))
+            start = time.time()
+            # if not hosts:
+            #     logging.error("no hosts")
+            #     return
+                # hosts = "192.168.40.*"
+            if not cookie:
+                # cookie = get_cookie()
+                cookie = "./resources/default_lab.json"
+            if not do_not_dig:
+                hosts, ip = get_ip_from_dig()
+                modify_cookie_ip(ip, cookie)
 
-        result = nmap_scan(print_output=True, hosts = hosts)
-        logging.info("Found {} hosts on network, attacking just one {}".format(
-                        len(result["results"]), result["results"][0])) # TODO not 1
-        if len(result["results"]) < 0:
-            print("No hosts found, restarting")
-            continue
-        
-        host = "http://"+result["results"][0]
-        result = wapiti_scan(host=host+"/vulnerabilities/", group_name=group_name, cookie=cookie)
-        num_results=0 
-        for key in result["results"].keys():
-            num_results += len(result["results"][key])
-        logging.info("Total number of wapiti results is {}".format(num_results))
-        success = True if num_results > 0 else False
-        if not success:
-            print("No vuln found, restarting")
-            continue
-
-        result = execute_attacks(result, host, 
-                        cookie=get_cookie_contents(cookie), 
-                        group_name=group_name, stop_if_success=True)
-        end = time.time()
-        print("---- END, total time (sec) " + str(end-start))
+            result = nmap_scan(print_output=True, hosts = hosts)
+            phase_1_results.append(result)
+            logging.info("Found {} hosts on network, attacking just one {}".format(
+                            len(result["results"]), result["results"])) # TODO not 1
+            if len(result["results"]) < 1:
+                print("No hosts found, restarting")
+                vuln_scan_results = {
+                    "stage":2,
+                    "time":0, 
+                    "settings": "",
+                    "results":{},
+                }
+                phase_2_results.append(vuln_scan_results)
+                attack_results = {
+                    "stage":3,
+                    "time":0, 
+                    "settings": "",
+                    "results":{},
+                    "success":False
+                }
+                phase_3_results.append(attack_results)
+                continue
+            sys.stdout.flush()
+            host = "http://"+result["results"][0]
+            result = wapiti_scan(host=host+"/vulnerabilities/", group_name=group_name, cookie=cookie)
+            w_result = result
+            num_results=0 
+            for key in result["results"].keys():
+                num_results += len(result["results"][key])
+            logging.info("Total number of wapiti results is {}".format(num_results))
+            success = True if num_results > 0 else False
+            if not success:
+                print("No vuln found, restarting")
+                vuln_scan_results = {
+                    "stage":2,
+                    "time":0, 
+                    "settings": "",
+                    "results":{},
+                }
+                phase_2_results.append(vuln_scan_results)
+                attack_results = {
+                    "stage":3,
+                    "time":0, 
+                    "settings": "",
+                    "results":{},
+                    "success":False
+                }
+                phase_3_results.append(attack_results)
+                continue
+            sys.stdout.flush()
+            result = execute_attacks(result, host, 
+                            cookie=get_cookie_contents(cookie), 
+                            group_name=group_name, stop_if_success=True)
+            phase_2_results.append(w_result)
+            phase_3_results.append(result)
+            end = time.time()
+            print("---- END, total time (sec) " + str(end-start) + ", " +  time.strftime("%Y%m%d_%H%M%S"))
+            sys.stdout.flush()
+        except Exception as e:
+            logging.error(e)
+            print("Timeout")
+            vuln_scan_results = {
+                "stage":2,
+                "time":0, 
+                "settings": "",
+                "results":{},
+            }
+            phase_2_results.append(vuln_scan_results)
+            attack_results = {
+                "stage":3,
+                "time":0, 
+                "settings": "",
+                "results":{},
+                "success":False
+            }
+            phase_3_results.append(attack_results)
+        print("---PHASE OUTPUTS---")
+        post_processing(1, phase_1_results)
+        post_processing(2, phase_2_results)
+        post_processing(3, phase_3_results)
+        print(len(phase_1_results), len(phase_2_results), len(phase_3_results))
+        print("---END PHASE OUTPUTS---")
+            
 
 def main(args):
     # make group directory
     # group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
-    group = "testing_auto_mtd" #TODO parse this in from commandline
+    group = "mtd_drop_180_NW_24_attack_exec_stop" #TODO parse this in from commandline
     create_output_folder(group)
 
     print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
     print("stage, time, command, result, success")
-    full_attack(hosts=None, cookie=None, group_name=group)
+    full_attack(trials=100, hosts=None, cookie=None, group_name=group)
 
     # print("stage, time, command, result, success")
     # test_phase_1(3, args.nw_scan_addr)
@@ -178,6 +242,7 @@ if __name__ == '__main__':
 
     ip, raw = get_ip_from_dig()
     args.nw_scan_addr = ip
+    args.addr = raw
 
 
     main(args)
