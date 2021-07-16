@@ -1,0 +1,1 @@
+{"192.168.40.132": {"/": {"PHPSESSID": {"value": "e27ff91837777e9e98da117b0c5c7c29", "expires": null, "secure": false, "port": null, "version": 0}}, "/dvwa": {"security": {"value": "low", "expires": null, "secure": false, "port": null, "version": 0}}}}

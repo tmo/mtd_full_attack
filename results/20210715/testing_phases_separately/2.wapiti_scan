@@ -1,0 +1,12 @@
+stage, time, command, result, success
+2,6.173671722412109,wapiti  -u  http://192.168.40.132/dvwa/ -c resources/cook2.json -x http://192.168.40.132/dvwa/logout.php -m sql,xss,exec -f json -o ./results/20210715/wapiti_20210715_035143.json --flush-session,./results/20210715/wapiti_20210715_035143.json
+stage, time, command, result, success
+2,58.39068913459778,wapiti  -u  http://192.168.40.132/dvwa/ -c resources/cook2.json -x http://192.168.40.132/dvwa/logout.php -m sql,xss,exec -f json -o ./results/20210715/wapiti_20210715_035252.json --flush-session,./results/20210715/wapiti_20210715_035252.json
+stage, time, command, result, success
+2,61.836833477020264,wapiti  -u  http://192.168.40.132/dvwa/ -c resources/cook2.json -x http://192.168.40.132/dvwa/logout.php -m sql,xss,exec -f json -o ./results/20210715/wapiti_20210715_035617.json --flush-session,./results/20210715/wapiti_20210715_035617.json
+Scans Launched, Sucesses, Average TTS
+1,1,61.836833477020264
+stage, time, command, result, success
+2,63.21899080276489,wapiti  -u  http://192.168.40.132/dvwa/ -c resources/cook2.json -x http://192.168.40.132/dvwa/logout.php -m sql,xss,exec -f json -o ./results/20210715/testing_phases_separately/wapiti_20210715_035735.json --flush-session,./results/20210715/testing_phases_separately/wapiti_20210715_035735.json
+Scans Launched, Sucesses, Average TTS
+1,1,63.21899080276489

