@@ -31,7 +31,6 @@ def post_processing(stage_in, results):
                 stage=result["stage"]
             else:
                 logging.error("Input does not have a stage")
-        print(stage)
         scans_launched += 1
         # determine if successful
         if(stage == 1 ): # nmap
@@ -96,3 +95,17 @@ def create_output_folder(group=None):
         file_dir = "./results/{}/".format(date_folder)
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
+
+
+def get_ip_from_dig():
+    start = time.time()
+    os.system("dig @10.1.0.100 www.mj.uq.dslab.com +short > ./resources/ip")
+
+    with open("./resources/ip", 'r') as f:      
+        ip = f.read()
+
+    # ip = ip[::-1].split(".",1)[1][::-1]+".*"
+    ip_space = ip.strip() + "/24"
+    end = time.time()
+    logging.info("Got ip space {} from dig in time {}".format(ip_space, end-start))
+    return ip_space, ip.strip()
