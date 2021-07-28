@@ -1,7 +1,7 @@
 # import sys
 import argparse
 # import nmap
-import time, sys
+import time, sys, random
 import logging
 # import os
 # replaces os
@@ -70,7 +70,11 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
     if hosts:
         do_not_dig = True
     print("Total trials " + str(trials))
+    random_wait = random.randrange(0,100+1)
+    print("Random wait time between 0 and 100seconds" + str)
     for i in range(trials):
+        # wait this same random amount of time at the start of each trial
+        time.sleep(random_wait)
         try:
             print("---- Trial " + str(i) + ",  " +  time.strftime("%Y%m%d_%H%M%S"))
             start = time.time()
@@ -172,7 +176,7 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
 def main(args):
     # make group directory
     # group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
-    group = "mtd_switch_60_NW_24_attack_sql_stop" #TODO parse this in from commandline
+    group = "delayed_mtd_drop_180_NW_24_attack_sql_stop" #TODO parse this in from commandline
     create_output_folder(group)
 
     print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
