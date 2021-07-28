@@ -1,6 +1,0 @@
-stage, time, command, result, success
-1,2.679978132247925,nmap --unprivileged -sn 192.168.40.*,['192.168.40.128', '192.168.40.2']
-1,3.313537120819092,nmap --unprivileged -sn 192.168.40.*,['192.168.40.128', '192.168.40.2']
-1,11.930408477783203,nmap --unprivileged -sn 192.168.40.*,['192.168.40.128', '192.168.40.2']
-Scans Launched, Sucesses, Average TTS
-3,3,5.97464124361674
