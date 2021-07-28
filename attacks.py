@@ -14,10 +14,10 @@ def execute_attacks(vulnerabilities, ip, cookie, group_name=None, stop_if_succes
                 logging.info("Launching command execution")
                 result = attack_manual_command_exec_passwd(vuls[key][i], ip, cookie=cookie, group_name=group_name)
                 # result = attack_manual_command_exec_env(vuls[key][i], ip, cookie=cookie, group_name=group_name)
-            # if ("SQL Injection" in key):
-            #     # if "sqli" in vuls[key][i]["path"]:
-            #         # logging.info("Launchin sql injection for key {}".format(key))
-            #     result = attack_sql_manual(vuls[key][i], ip, cookie, group_name=group_name)           
+            if ("SQL Injection" in key):
+                # if "sqli" in vuls[key][i]["path"]:
+                    # logging.info("Launchin sql injection for key {}".format(key))
+                result = attack_sql_manual(vuls[key][i], ip, cookie, group_name=group_name)           
                 # else:
                 #     result = None #normally never none
             attack_results.append(result)

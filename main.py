@@ -69,9 +69,10 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
     do_not_dig = False
     if hosts:
         do_not_dig = True
+    print("Total trials " + str(trials))
     for i in range(trials):
         try:
-            print("---- Trial " + str(i))
+            print("---- Trial " + str(i) + ",  " +  time.strftime("%Y%m%d_%H%M%S"))
             start = time.time()
             # if not hosts:
             #     logging.error("no hosts")
@@ -160,7 +161,7 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
                 "success":False
             }
             phase_3_results.append(attack_results)
-        print("---PHASE OUTPUTS---")
+        print("---PHASE OUTPUTS---" +  time.strftime("%Y%m%d_%H%M%S"))
         post_processing(1, phase_1_results)
         post_processing(2, phase_2_results)
         post_processing(3, phase_3_results)
@@ -171,16 +172,20 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
 def main(args):
     # make group directory
     # group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
-    group = "mtd_drop_180_NW_24_attack_exec_stop" #TODO parse this in from commandline
+    group = "mtd_switch_60_NW_24_attack_sql_stop" #TODO parse this in from commandline
     create_output_folder(group)
 
     print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
     print("stage, time, command, result, success")
-    full_attack(trials=100, hosts=None, cookie=None, group_name=group)
+    full_attack(trials=1020, hosts=None, cookie=None, group_name=group)
 
+    # cookie = "./resources/default_lab.json"
+    # hosts, ip = get_ip_from_dig()
+    # modify_cookie_ip(ip, cookie)
+    
     # print("stage, time, command, result, success")
     # test_phase_1(3, args.nw_scan_addr)
-    # test_phase_2(1, "http://"+args.addr+"/vulnerabilities/", group_name=group)
+    # test_phase_2(1, "http://"+args.addr+"/vulnerabilities/", group_name=group, cookie="./resources/default_lab.json")
     # vuls = get_wapiti_results("./results/20210716/testing_auto_static/wapiti_20210716_040537.json")
     # vuln_scan_results = {
     #     "stage":2,
