@@ -1,5 +1,5 @@
 import logging
-import time, os
+import time, os, sys
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -68,8 +68,8 @@ def post_processing(stage_in, results):
         average_TTS = sum(times_to_success)/len(times_to_success)
     except:
         average_TTS = -1
-    print("Scans Launched, Sucesses, Average TTS")
-    print("{},{},{}".format(scans_launched, successes, average_TTS))
+    print("Scans Launched, Sucesses, Average TTS", file=sys.stderr)
+    print("{},{},{}".format(scans_launched, successes, average_TTS), file=sys.stderr)
     return successes
    
 def get_output_file_name(file_time_flt, name, group=None):

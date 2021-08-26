@@ -70,9 +70,14 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
     if hosts:
         do_not_dig = True
     print("Total trials " + str(trials))
-    random_wait = random.randrange(0,100+1)
-    print("Random wait time between 0 and 100seconds" + str)
-    for i in range(trials):
+    random_wait = 26# random.randrange(0,100+1)
+    print("Random wait time between 0 and 100seconds " + str(random_wait))
+    sys.stdout.flush()
+    # for i in range(trials):
+    i=-1
+    while(True):
+        i += 1
+
         # wait this same random amount of time at the start of each trial
         time.sleep(random_wait)
         try:
@@ -145,7 +150,7 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
             phase_2_results.append(w_result)
             phase_3_results.append(result)
             end = time.time()
-            print("---- END, total time (sec) " + str(end-start) + ", " +  time.strftime("%Y%m%d_%H%M%S"))
+            print("---- END, total time (sec) " + str(end-start) + ", " +  time.strftime("%Y%m%d_%H%M%S"), file=sys.stderr)
             sys.stdout.flush()
         except Exception as e:
             logging.error(e)
@@ -165,19 +170,22 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
                 "success":False
             }
             phase_3_results.append(attack_results)
-        print("---PHASE OUTPUTS---" +  time.strftime("%Y%m%d_%H%M%S"))
+        print("---PHASE OUTPUTS---" +  time.strftime("%Y%m%d_%H%M%S"), file=sys.stderr)
         post_processing(1, phase_1_results)
         post_processing(2, phase_2_results)
         post_processing(3, phase_3_results)
-        print(len(phase_1_results), len(phase_2_results), len(phase_3_results))
+        print(len(phase_1_results), len(phase_2_results), len(phase_3_results), file=sys.stderr)
         print("---END PHASE OUTPUTS---")
             
 
 def main(args):
     # make group directory
     # group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
-    group = "delayed_mtd_drop_180_NW_24_attack_sql_stop" #TODO parse this in from commandline
+    group = "delayed_mtd_drop_120_NW_24_attack_sql_stop" #TODO parse this in from commandline
     create_output_folder(group)
+
+    print("Test stdout")
+    print("Test stderr", file=sys.stderr)
 
     print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
     print("stage, time, command, result, success")
