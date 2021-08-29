@@ -2,6 +2,7 @@
 import argparse
 # import nmap
 import time, sys, random
+import subprocess
 import logging
 # import os
 # replaces os
@@ -177,8 +178,39 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
         print(len(phase_1_results), len(phase_2_results), len(phase_3_results), file=sys.stderr)
         print("---END PHASE OUTPUTS---")
             
+def probe_signal():
+    ip = "192.168.40.132"
+
+    """ psudo code
+    try connection,
+    if failed, do an nmap scan
+    if not failed, retry in 10 seconds
+
+    consider itnervals of 30s to several hours
+
+    have an array of fulfilled or dropped to look at
+   
+    """
+
+    status = []
+    while True:
+        out = subprocess.check_output(['nmap', '-sn', ip]).decode("utf-8")
+        third_line = out.split("\n")[2]
+
+        if (third_line[0] == "H"):
+            status += [1]
+            print("host is up")
+        elif (third_line[0] == "N"):
+            status += [0]
+            print("Hst Down")
+        else:
+            print("unexpected error")
+
+        # if status == 0 rescan nmap fully
+        time.sleep(10)
 
 def main(args):
+    probe_signal()
     # make group directory
     # group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
     group = "delayed_mtd_drop_120_NW_24_attack_sql_stop" #TODO parse this in from commandline
