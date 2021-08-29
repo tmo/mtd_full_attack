@@ -186,9 +186,9 @@ def main(args):
 
     # Probing
     # hosts, ip = get_ip_from_dig()
-    # hosts, ip = "192.168.40.132/24", "192.168.40.132"
-    # probe_signal(starting_ip = ip, scan_range = hosts )
-    evaluate_interval(None)
+    hosts, ip = "192.168.40.132/24", "192.168.40.132"
+    status, times = probe_signal(starting_ip = ip, scan_range = hosts )
+    evaluate_interval(status, times)
 
 
     # make group directory
