@@ -12,6 +12,7 @@ from helpers import post_processing, create_output_folder, get_ip_from_dig
 from network_scanning import nmap_scan
 from vulnerability_scanning import *
 from attacks import *
+from probing import probe_signal
 
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(filename='log/debug.log', level=logging.debug)
@@ -71,16 +72,12 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
     if hosts:
         do_not_dig = True
     print("Total trials " + str(trials))
-    random_wait = 26# random.randrange(0,100+1)
-    print("Random wait time between 0 and 100seconds " + str(random_wait))
     sys.stdout.flush()
     # for i in range(trials):
     i=-1
     while(True):
         i += 1
 
-        # wait this same random amount of time at the start of each trial
-        time.sleep(random_wait)
         try:
             print("---- Trial " + str(i) + ",  " +  time.strftime("%Y%m%d_%H%M%S"))
             start = time.time()
@@ -95,6 +92,7 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
                 hosts, ip = get_ip_from_dig()
                 modify_cookie_ip(ip, cookie)
 
+            # network scanning
             result = nmap_scan(print_output=True, hosts = hosts)
             phase_1_results.append(result)
             logging.info("Found {} hosts on network, attacking just one {}".format(
@@ -118,6 +116,8 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
                 phase_3_results.append(attack_results)
                 continue
             sys.stdout.flush()
+
+            # vulnerability scanning
             host = "http://"+result["results"][0]
             result = wapiti_scan(host=host+"/vulnerabilities/", group_name=group_name, cookie=cookie)
             w_result = result
@@ -145,6 +145,8 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
                 phase_3_results.append(attack_results)
                 continue
             sys.stdout.flush()
+
+            # attacking
             result = execute_attacks(result, host, 
                             cookie=get_cookie_contents(cookie), 
                             group_name=group_name, stop_if_success=True)
@@ -176,52 +178,25 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
         post_processing(2, phase_2_results)
         post_processing(3, phase_3_results)
         print(len(phase_1_results), len(phase_2_results), len(phase_3_results), file=sys.stderr)
-        print("---END PHASE OUTPUTS---")
+        print("---END PHASE OUTPUTS---", file=sys.stderr)
             
-def probe_signal():
-    ip = "192.168.40.132"
 
-    """ psudo code
-    try connection,
-    if failed, do an nmap scan
-    if not failed, retry in 10 seconds
-
-    consider itnervals of 30s to several hours
-
-    have an array of fulfilled or dropped to look at
-   
-    """
-
-    status = []
-    while True:
-        out = subprocess.check_output(['nmap', '-sn', ip]).decode("utf-8")
-        third_line = out.split("\n")[2]
-
-        if (third_line[0] == "H"):
-            status += [1]
-            print("host is up")
-        elif (third_line[0] == "N"):
-            status += [0]
-            print("Hst Down")
-        else:
-            print("unexpected error")
-
-        # if status == 0 rescan nmap fully
-        time.sleep(10)
 
 def main(args):
-    probe_signal()
+    # hosts, ip = get_ip_from_dig()
+    hosts, ip = "192.168.40.132/24", "192.168.40.132"
+    probe_signal(starting_ip = ip, scan_range = hosts )
     # make group directory
     # group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
-    group = "delayed_mtd_drop_120_NW_24_attack_sql_stop" #TODO parse this in from commandline
-    create_output_folder(group)
+    # group = "delayed_mtd_drop_120_NW_24_attack_sql_stop" #TODO parse this in from commandline
+    # create_output_folder(group)
 
-    print("Test stdout")
-    print("Test stderr", file=sys.stderr)
+    # print("Test stdout")
+    # print("Test stderr", file=sys.stderr)
 
-    print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
-    print("stage, time, command, result, success")
-    full_attack(trials=1020, hosts=None, cookie=None, group_name=group)
+    # print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
+    # print("stage, time, command, result, success")
+    # full_attack(trials=1020, hosts=None, cookie=None, group_name=group)
 
     # cookie = "./resources/default_lab.json"
     # hosts, ip = get_ip_from_dig()
@@ -289,9 +264,10 @@ if __name__ == '__main__':
     # args.addr="10.0.0.100"
     # args.nw_scan_addr = "10.0.0.100/24" # I can write a script to dig and feed into here
 
-    ip, raw = get_ip_from_dig()
-    args.nw_scan_addr = ip
-    args.addr = raw
+    # un comment in lab
+    # ip, raw = get_ip_from_dig()
+    # args.nw_scan_addr = ip
+    # args.addr = raw
 
 
     main(args)
