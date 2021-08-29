@@ -12,7 +12,7 @@ from helpers import post_processing, create_output_folder, get_ip_from_dig
 from network_scanning import nmap_scan
 from vulnerability_scanning import *
 from attacks import *
-from probing import probe_signal
+from probing import probe_signal, evaluate_interval
 
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(filename='log/debug.log', level=logging.debug)
@@ -183,9 +183,14 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
 
 
 def main(args):
+
+    # Probing
     # hosts, ip = get_ip_from_dig()
-    hosts, ip = "192.168.40.132/24", "192.168.40.132"
-    probe_signal(starting_ip = ip, scan_range = hosts )
+    # hosts, ip = "192.168.40.132/24", "192.168.40.132"
+    # probe_signal(starting_ip = ip, scan_range = hosts )
+    evaluate_interval(None)
+
+
     # make group directory
     # group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
     # group = "delayed_mtd_drop_120_NW_24_attack_sql_stop" #TODO parse this in from commandline
