@@ -7,12 +7,13 @@ import logging
 # import os
 # replaces os
 # import subprocess
+import threading
 
 from helpers import post_processing, create_output_folder, get_ip_from_dig
 from network_scanning import nmap_scan
 from vulnerability_scanning import *
 from attacks import *
-from probing import probe_signal, evaluate_interval
+from probing import guess_mtd_interval, probe_signal, evaluate_interval
 
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(filename='log/debug.log', level=logging.debug)
@@ -64,7 +65,8 @@ def test_phase_3(trials, vuln_scan_results, host, group_name=None):
         phase_results.append(result)
     post_processing(3, phase_results)
 
-def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
+def full_attack(trials=1, hosts=None,  cookie=None, group_name=None, 
+                interval_vars=None):
     phase_1_results = []
     phase_2_results = []
     phase_3_results = []
@@ -77,6 +79,14 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None):
     i=-1
     while(True):
         i += 1
+        if(interval_vars):
+            print(">>main thread, {}".format(interval_vars))
+            if time.time() < interval_vars[1]:
+                # wait till time
+                sleep_time = interval_vars[1] - time.time()
+                time.sleep(sleep_time if sleep_time>0 else 0)
+                print("waiting for interval")
+                interval_vars[1] = interval_vars[1] + interval_vars[0]
 
         try:
             print("---- Trial " + str(i) + ",  " +  time.strftime("%Y%m%d_%H%M%S"))
@@ -187,21 +197,29 @@ def main(args):
     # Probing
     # hosts, ip = get_ip_from_dig()
     hosts, ip = "192.168.40.132/24", "192.168.40.132"
-    status, times = probe_signal(starting_ip = ip, scan_range = hosts )
-    evaluate_interval(status, times)
+    data_lock = threading.Lock()
+    interval, next_time = -1,-1
+    ret_vars = [-1, -1]
+    th = threading.Thread(target=guess_mtd_interval, args=(ip, hosts, ret_vars, next_time, data_lock))
+    th.start()
+    # status, times = probe_signal(starting_ip = ip, scan_range = hosts )
+    # evaluate_interval(status, times)
 
-
+    # while True:
+    #     print(">>main thread, {}, {}".format(ret_vars, next_time))
+    #     time.sleep(3)
     # make group directory
-    # group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
-    # group = "delayed_mtd_drop_120_NW_24_attack_sql_stop" #TODO parse this in from commandline
-    # create_output_folder(group)
+    group = time.strftime("%Y%m%d_%H%M%S",time.gmtime(time.time()))
+    group = "test_int_att" #delayed_mtd_drop_120_NW_24_attack_sql_stop TODO parse this in from commandline
+    create_output_folder(group)
 
-    # print("Test stdout")
-    # print("Test stderr", file=sys.stderr)
+    print("Test stdout")
+    print("Test stderr", file=sys.stderr)
 
-    # print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
-    # print("stage, time, command, result, success")
-    # full_attack(trials=1020, hosts=None, cookie=None, group_name=group)
+    print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
+    print("stage, time, command, result, success")
+    full_attack(trials=1020, hosts=None, cookie=None, group_name=group,
+                    interval_vars=ret_vars)
 
     # cookie = "./resources/default_lab.json"
     # hosts, ip = get_ip_from_dig()

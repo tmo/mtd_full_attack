@@ -4,6 +4,19 @@ import logging
 
 from network_scanning import nmap_scan
 
+
+def guess_mtd_interval(starting_ip, scan_range, interval, next_time, data_lock):
+    while True:
+        status_1, times_1 = probe_signal(starting_ip, scan_range)
+        ret_interval, ret_next_time = evaluate_interval(status_1, times_1)
+        with data_lock:
+            interval[0]  = ret_interval
+            interval[1] = ret_next_time
+        print("changed values")
+        # time.sleep(3*60*60)
+        time.sleep(20)
+        print("Rechecking interval")
+
 def probe_signal(starting_ip = None, scan_range=None):
     # ip = "192.168.40.132" # RM
     ip = starting_ip
@@ -33,11 +46,11 @@ def probe_signal(starting_ip = None, scan_range=None):
     status, times = [], []
     start_time = time.time()
     idx  =0
-    while idx < 30:
+    while idx < 15:
         idx += 1
         # RM
         # For testing connection dropping out
-        if time.time() - start_time > 60: 
+        if time.time() - start_time > 10: 
             # random.randrange(0,100)/100 < 0.2:
             start_time = time.time()
             ip = "192.168.40.133"
@@ -49,7 +62,7 @@ def probe_signal(starting_ip = None, scan_range=None):
         if (third_line[0] == "H"):
             status += [1]
             print("host is up")
-            time.sleep(random.randrange(5, 30))
+            time.sleep(random.randrange(1, 5)) #(5,30)
         elif (third_line[0] == "N"):
             status += [-1]
             print("Host Down")
@@ -64,6 +77,7 @@ def probe_signal(starting_ip = None, scan_range=None):
             print("unexpected error")
         times += [time.time()]
         print(status)
+        print("probes left ", 15-idx)
     print(times)
     return status, times
 
@@ -103,6 +117,7 @@ def evaluate_interval(status_list, times_list):
     next_time = last_drop + interval
 
     print("Next trigger time is {}".format(next_time))
+    return interval, next_time
 
 
 
