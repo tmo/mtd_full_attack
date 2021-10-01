@@ -114,6 +114,7 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None,
                     "time":0, 
                     "settings": "",
                     "results":{},
+                    "success":False
                 }
                 phase_2_results.append(vuln_scan_results)
                 attack_results = {
@@ -128,21 +129,24 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None,
             sys.stdout.flush()
 
             # vulnerability scanning
-            host = "http://"+result["results"][0]
+            # host = "http://"+result["results"][0]
+            host = "http://192.168.40.132"
             result = wapiti_scan(host=host+"/vulnerabilities/", group_name=group_name, cookie=cookie)
             w_result = result
-            num_results=0 
-            for key in result["results"].keys():
-                num_results += len(result["results"][key])
-            logging.info("Total number of wapiti results is {}".format(num_results))
-            success = True if num_results > 0 else False
-            if not success:
+            # num_results=0 
+            # for key in result["results"].keys():
+            #     num_results += len(result["results"][key])
+            # logging.info("Total number of wapiti results is {}".format(num_results))
+            # success = True if num_results > 0 else False
+            # w_result["success"] = success
+            if not w_result["success"]:
                 print("No vuln found, restarting")
                 vuln_scan_results = {
                     "stage":2,
                     "time":0, 
                     "settings": "",
                     "results":{},
+                    "success":False
                 }
                 phase_2_results.append(vuln_scan_results)
                 attack_results = {
@@ -160,6 +164,7 @@ def full_attack(trials=1, hosts=None,  cookie=None, group_name=None,
             result = execute_attacks(result, host, 
                             cookie=get_cookie_contents(cookie), 
                             group_name=group_name, stop_if_success=True)
+            print(w_result)
             phase_2_results.append(w_result)
             phase_3_results.append(result)
             end = time.time()
@@ -218,8 +223,8 @@ def main(args):
 
     print("---- STARTING " + time.strftime("%Y%m%d_%H%M%S"))
     print("stage, time, command, result, success")
-    full_attack(trials=1020, hosts=None, cookie=None, group_name=group,
-                    interval_vars=ret_vars)
+    full_attack(trials=1020, hosts=hosts, cookie=None, group_name=group,
+                    interval_vars=ret_vars) #TODO make hosts none
 
     # cookie = "./resources/default_lab.json"
     # hosts, ip = get_ip_from_dig()

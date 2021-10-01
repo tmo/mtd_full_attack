@@ -43,7 +43,7 @@ def post_processing(stage_in, results):
             num_results = 0
             for key in result["results"].keys():
                 num_results += len(result["results"][key])
-            logging.info("Total number of wapiti results is {}".format(num_results))
+            # logging.info("Total number of wapiti results is {}".format(num_results))
             success = True if num_results > 0 else False
             if (success):
                 successes += 1

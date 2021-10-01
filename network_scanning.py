@@ -28,14 +28,16 @@ def nmap_scan(hosts=None, args=None, print_output=True, os_output=False,
     # r = os.system(os_input)
     # end = time.time()
 
-   
+    hosts_found = nm.all_hosts()
+    success = len(hosts_found) >= 1
     if print_output:
-        print("1,{},{},{}".format(end-start, "nmap {} {}".format(args, hosts),
-        nm.all_hosts()))
+        print("1,{},{},{},{}".format(end-start, "nmap {} {}".format(args, hosts),
+        hosts_found, success))
     result = {
         "stage":1,
         "time":end-start, 
         "settings":"nmap {} {}".format(args, hosts),
-        "results":nm.all_hosts()
+        "results":hosts_found,
+        "success": success
     }
     return result
