@@ -59,7 +59,7 @@ def attack_manual_command_exec_passwd(vuln, host, cookie=None, group_name=None,
     success = True if ("root:x:" in output) else False 
 
     if print_output:
-        print("3,{},{},{},{}".format(end-start, attack_str, output_file,success))
+        print("3;{};{};{};{}".format(end-start, attack_str, output_file,success))
     result = {
         "stage":3, 
         "time":end-start, 
@@ -101,7 +101,7 @@ def attack_manual_command_exec_env(vuln, host, cookie=None, group_name=None,
     success = True if ("PWD=" in output) else False #Command Injection
 
     if print_output:
-        print("3,{},{},{},{}".format(end-start, attack_str, output_file,success))
+        print("3;{};{};{};{}".format(end-start, attack_str, output_file,success))
     result = {
         "stage":3, 
         "time":end-start, 
@@ -143,7 +143,7 @@ def attack_sql_manual(vuln, host, cookie=None, group_name=None,
     end = time.time()
 
     if print_output:
-        print("3,{},{},{},{}".format(end-start, os_input, output_file,success))
+        print("3;{};{};{};{}".format(end-start, os_input, output_file,success))
     result = {
         "stage":3, # TODO its ok for these to be formatted uniquely but maybe make it a type or a class
         "time":end-start, 

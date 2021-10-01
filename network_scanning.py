@@ -31,7 +31,7 @@ def nmap_scan(hosts=None, args=None, print_output=True, os_output=False,
     hosts_found = nm.all_hosts()
     success = len(hosts_found) >= 1
     if print_output:
-        print("1,{},{},{},{}".format(end-start, "nmap {} {}".format(args, hosts),
+        print("1;{};{};{};{}".format(end-start, "nmap {} {}".format(args, hosts),
         hosts_found, success))
     result = {
         "stage":1,
