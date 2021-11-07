@@ -97,7 +97,7 @@ def create_output_folder(group=None):
         os.makedirs(file_dir)
 
 
-def get_ip_from_dig():
+def get_ip_from_dig(space="/24"):
     start = time.time()
     os.system("dig @10.1.0.100 www.mj.uq.dslab.com +short > ./resources/ip")
 
@@ -105,7 +105,8 @@ def get_ip_from_dig():
         ip = f.read()
 
     # ip = ip[::-1].split(".",1)[1][::-1]+".*"
-    ip_space = ip.strip() + "/24"
+    # space = "/16"
+    ip_space = ip.strip() + space
     end = time.time()
     logging.info("Got ip space {} from dig in time {}".format(ip_space, end-start))
     return ip_space, ip.strip()
